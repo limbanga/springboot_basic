@@ -5,6 +5,7 @@ import com.example.demo.requests.LoginRequest;
 import com.example.demo.requests.RegisterRequest;
 import com.example.demo.services.JwtUtils;
 import com.example.demo.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,13 +43,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(
-            @RequestBody RegisterRequest request) {
+    public ResponseEntity<RegisterRequest> register(
+             @RequestBody @Valid RegisterRequest request) {
         try {
             userService.register(request);
-            return ResponseEntity.ok("User created");
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.internalServerError().build();
         }
     }
 }

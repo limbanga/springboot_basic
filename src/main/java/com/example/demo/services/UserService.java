@@ -28,10 +28,9 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return User.builder()
-                .username(user.getUsername())
-                .password(passwordEncoder.encode(user.getPassword()))
-                .build();
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return user;
     }
 
     public User getById(Long id) {
