@@ -37,7 +37,6 @@ public abstract class BaseController<Entity extends BaseEntity> {
         return ResponseEntity.ok(service.create(body));
     }
 
-    @PutMapping
     public ResponseEntity<Entity> update(@RequestBody Entity body)
             throws Exception {
         return ResponseEntity.ok(service.update(body));
