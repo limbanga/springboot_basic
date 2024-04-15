@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import com.example.demo.entities.Order;
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.CustomValidationException;
 import com.example.demo.services.OrderService;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.UserService;
@@ -38,19 +39,28 @@ public class OrderController
     @PostMapping
     public ResponseEntity<Order> create(
             @AuthenticationPrincipal User user,
-            @RequestBody Order body) {
+            @RequestBody Order body) throws CustomValidationException {
         // set the owner of the order to the authenticated user
         body.setOwner(user);
         // set product
-        body.setProduct(productService.get(body.getProduct().getId()));
+        var product = productService.get(body.getProduct().getId());
+        if (product == null) {
+            throw new CustomValidationException("product.id", "Product not found");
+        }
+        body.setProduct(product);
         //
+        var total = product.getPrice() * body.getQuantity();
+        body.setTotal(total);
+        body.setStatus("pending");
+
         return super.create(body);
     }
 
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @Override
-    public ResponseEntity<Order> update(Order body) throws Exception {
+    public ResponseEntity<Order> update(Order body)
+            throws Exception {
         return super.update(body);
     }
 }

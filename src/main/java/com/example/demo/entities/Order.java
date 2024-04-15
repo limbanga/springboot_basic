@@ -4,6 +4,8 @@ import com.example.demo.services.ProductService;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,5 +23,8 @@ public class Order extends BaseEntity {
     private Product product;
 
     private Double total;
-    private String status;
+    @NotNull(message = "Quantity is required")
+    @Min(value = 1, message = "Quantity must be greater than 0")
+    private Integer quantity;
+    private String status = "Pending";
 }
