@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.CustomValidationException;
 import com.example.demo.requests.LoginRequest;
 import com.example.demo.requests.RegisterRequest;
 import com.example.demo.services.JwtUtils;
@@ -44,12 +45,9 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<RegisterRequest> register(
-             @RequestBody @Valid RegisterRequest request) {
-        try {
-            userService.register(request);
-            return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+             @RequestBody @Valid RegisterRequest request)
+            throws CustomValidationException {
+        userService.register(request);
+        return ResponseEntity.ok().build();
     }
 }

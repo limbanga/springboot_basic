@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.CustomValidationException;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.requests.RegisterRequest;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public void register(RegisterRequest request) {
+    public void register(RegisterRequest request) throws CustomValidationException {
         // check username existed
         if (userRepository.findByUsername(request.getUsername()) != null) {
-            throw new RuntimeException("Username is already taken");
+            throw new CustomValidationException("username", "Username is already taken");
         }
 
         var user = User.builder()
