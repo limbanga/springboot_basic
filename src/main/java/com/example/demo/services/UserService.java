@@ -31,4 +31,9 @@ public class UserService implements UserDetailsService {
                 .password(passwordEncoder.encode(user.getPassword()))
                 .build();
     }
+
+    public User getById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 }

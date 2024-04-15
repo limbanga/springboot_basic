@@ -1,13 +1,16 @@
 package com.example.demo.controllers;
 
 import com.example.demo.entities.BaseEntity;
+import com.example.demo.entities.Order;
+import com.example.demo.entities.User;
 import com.example.demo.services.BaseService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class BaseController<Entity extends BaseEntity> {
+public abstract class BaseController<Entity extends BaseEntity> {
 
     private final BaseService<Entity> service;
 
@@ -30,7 +33,6 @@ public class BaseController<Entity extends BaseEntity> {
         return ResponseEntity.ok(entity);
     }
 
-    @PostMapping
     public ResponseEntity<Entity> create(@RequestBody Entity body) {
         return ResponseEntity.ok(service.create(body));
     }
