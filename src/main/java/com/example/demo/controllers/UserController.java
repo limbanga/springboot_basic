@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,21 +27,23 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public String createAuthenticationToken(
-            @RequestBody LoginRequest request)
-            throws Exception {
+    public ResponseEntity<Object> createAuthenticationToken(
+            @RequestBody @Valid LoginRequest request) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
             );
+            final UserDetails userDetails = userService
+                    .loadUserByUsername(request.getUsername());
+
+            return ResponseEntity.ok(jwtUtils.generateJwtToken((User) userDetails));
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
+            return ResponseEntity.status(401).body(e.getLocalizedMessage());
+        } catch (UsernameNotFoundException e) {
+            return ResponseEntity.status(401).body("User not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getLocalizedMessage());
         }
-
-        final UserDetails userDetails = userService
-                .loadUserByUsername(request.getUsername());
-
-        return jwtUtils.generateJwtToken((User) userDetails);
     }
 
     @PostMapping("/register")
