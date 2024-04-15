@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.entities.Role;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.UserRepository;
+import com.example.demo.requests.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,4 +38,17 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElse(null);
     }
 
+    public void register(RegisterRequest request) {
+        // check username existed
+        if (userRepository.findByUsername(request.getUsername()) != null) {
+            throw new RuntimeException("Username is already taken");
+        }
+
+        var user = User.builder()
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.USER)
+                .build();
+        userRepository.save(user);
+    }
 }

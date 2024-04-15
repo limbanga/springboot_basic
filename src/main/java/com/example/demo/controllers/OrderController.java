@@ -5,6 +5,7 @@ import com.example.demo.entities.User;
 import com.example.demo.services.OrderService;
 import com.example.demo.services.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,7 @@ public class OrderController
     }
 
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<Order> create(
             @AuthenticationPrincipal User user,

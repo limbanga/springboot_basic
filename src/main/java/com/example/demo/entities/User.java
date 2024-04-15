@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    private Role role = Role.USER;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
@@ -32,7 +33,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of((GrantedAuthority) () -> role.toString());
     }
 
 
