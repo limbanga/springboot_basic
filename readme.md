@@ -27,63 +27,63 @@
 
 > Test the API with Postman.
 1. Product:
-- get all product: `GET /api/product/`
+- get all product: `GET /product/`
 
 ![img of test](previews/product_get_all.png)
 
-- get product by id: `GET /api/product/{id}`
+- get product by id: `GET /product/{id}`
 
 ![img of test](previews/product_get_by_id.png)
 
-- create product: `POST /api/product/`
+- create product: `POST /product/`
 
 ![img of test](previews/product_create.png)
 
-- update product: `PUT /api/product/`
+- update product: `PUT /product/`
 
 ![img of test](previews/product_update.png)
 > example validation
 >
 ![img of test](previews/product_update_validation.png)
 
-- set active product: `PATCH /api/product/`
+- set active product: `PATCH /product/`
 > set active product by id. only admin can set active product. 
 
 ![img of test](previews/product_patch.png)
 
-- delete product: `DELETE /api/product/{id}`
+- delete product: `DELETE /product/{id}`
 
 ![img of test](previews/product_delete.png)
 
 2. Order:
-- get all order: `GET /api/order/`
+- get all order: `GET /order/`
 
 ![image of test](previews/order_get_all.png)
 
-- get order by id: `GET /api/order/{id}`
+- get order by id: `GET /order/{id}`
 
 ![image of test](previews/order_get_by_id.png)
 
-- create order: `POST /api/order/`
+- create order: `POST /order/`
 > owner of order is the user who created it. (get from jwt token)
 ![image of test](previews/order_create.png)
 
-- update order: `PUT /api/order/`
+- update order: `PUT /order/`
 > Only admin can update order.
 > 
 ![img.png](previews/order_update.png)
 
-- delete order: `DELETE /api/order/{id}`
+- delete order: `DELETE /order/{id}`
 - Only admin can delete order.
 
 ![img.png](previews/order_delete.png)
 
 3. Auth:
-- login: `POST /api/auth/login`
+- login: `POST /login`
 
 ![img.png](previews/login.png)
 
-- register: `POST /api/auth/register`
+- register: `POST /register`
 
 ![img.png](previews/register.png)
 > if username existed
