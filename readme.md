@@ -6,6 +6,23 @@
 ### Detail
 - Api: RESTFUL and validation.
 - Auth: Spring security and jwt token.
+- Validation: Custom validation, Global exception handler.
+- Database: MySQL.
+- Seeding: Data seeding.
+
+### How to run project
+1. Clone project from [https://github.com/limbanga/springboot_basic.git](https://github.com/limbanga/springboot_basic.git).
+> branch: `master`
+2. Config Database in `application.properties`.
+
+![img of config](previews/config.png)
+3. Using `mvn clean install` to build project.
+4. Run project with `mvn spring-boot:run`.
+5. Test API with Postman.
+6. Enjoy! :3 mew mew
+### Seeding data 
+> u can change logic here to seed data.
+![seeding](previews/seeding.png)
 ### Test
 
 > Test the API with Postman.
@@ -28,6 +45,11 @@
 > example validation
 >
 ![img of test](previews/product_update_validation.png)
+
+- set active product: `PATCH /api/product/`
+> set active product by id. only admin can set active product. 
+
+![img of test](previews/product_patch.png)
 
 - delete product: `DELETE /api/product/{id}`
 

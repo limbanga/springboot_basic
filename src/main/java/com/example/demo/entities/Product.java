@@ -37,6 +37,8 @@ public class Product
     @Min(value = 0, message = "Quantity must be greater than 0")
     private Integer quantity;
 
+    private Boolean active = true;
+
     @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Order> orders;
