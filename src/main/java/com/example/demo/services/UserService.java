@@ -32,7 +32,8 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public void register(RegisterRequest request) throws CustomValidationException {
+    public void register(RegisterRequest request, Role role)
+            throws CustomValidationException {
         // check username existed
         if (userRepository.findByUsername(request.getUsername()) != null) {
             throw new CustomValidationException("username", "Username is already taken");
@@ -43,8 +44,17 @@ public class UserService implements UserDetailsService {
                 .lastName(request.getLastName())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(role)
                 .build();
         userRepository.save(user);
+    }
+
+    public void register(RegisterRequest request)
+            throws CustomValidationException {
+        register(request, Role.USER);
+    }
+
+    public User get(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 }

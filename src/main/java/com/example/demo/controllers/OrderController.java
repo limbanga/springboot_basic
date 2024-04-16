@@ -6,14 +6,12 @@ import com.example.demo.exceptions.CustomValidationException;
 import com.example.demo.services.OrderService;
 import com.example.demo.services.ProductService;
 import com.example.demo.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipal;
 
@@ -39,7 +37,7 @@ public class OrderController
     @PostMapping
     public ResponseEntity<Order> create(
             @AuthenticationPrincipal User user,
-            @RequestBody Order body) throws CustomValidationException {
+            @RequestBody @Valid Order body) throws CustomValidationException {
         // set the owner of the order to the authenticated user
         body.setOwner(user);
         // set product
@@ -56,11 +54,29 @@ public class OrderController
         return super.create(body);
     }
 
-
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PutMapping
     @Override
-    public ResponseEntity<Order> update(Order body)
+    public ResponseEntity<Order> update(
+            @RequestBody @Valid Order body)
             throws Exception {
+        var product = productService.get(body.getProduct().getId());
+        if (product == null) {
+            throw new CustomValidationException("product.id", "Product not found");
+        }
+        body.setProduct(product);
+        var owner = userService.get(body.getOwner().getId());
+        if (owner == null) {
+            throw new CustomValidationException("owner.id", "Owner not found");
+        }
+        body.setOwner(owner);
+
         return super.update(body);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @Override
+    public ResponseEntity<String> delete(Long id) {
+        return super.delete(id);
     }
 }

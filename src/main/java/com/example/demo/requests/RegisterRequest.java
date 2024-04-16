@@ -2,10 +2,12 @@ package com.example.demo.requests;
 
 
 import jakarta.validation.constraints.NotEmpty;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
+@Builder
 public class RegisterRequest {
     @NotEmpty(message = "First name is required")
     private String firstName;

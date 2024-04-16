@@ -17,6 +17,7 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // not update this field when update an entity
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp

@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.entities.BaseEntity;
+import com.example.demo.exceptions.CustomValidationException;
 import com.example.demo.repositories.BaseRepository;
 
 import java.util.List;
@@ -21,15 +22,18 @@ public abstract class BaseService<Entity extends BaseEntity> {
     }
 
     public Entity create(Entity entity) {
+        entity.setId(null);
         return repository.save(entity);
     }
 
     public Entity update(Entity entity)
-            throws Exception {
-        var isExist = get(entity.getId()) != null;
-        if (!isExist) {
-            throw new Exception("Entity not found");
+            throws CustomValidationException {
+        var entityInBD = get(entity.getId());
+        if (entityInBD == null) {
+            throw new CustomValidationException("id", "Entity not found");
         }
+        entity.setCreatedAt(entityInBD.getCreatedAt());
+
         return repository.save(entity);
     }
 

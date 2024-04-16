@@ -28,7 +28,7 @@ public class User implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
-    private Role role = Role.USER;
+    private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
