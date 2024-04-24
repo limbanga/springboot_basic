@@ -17,11 +17,16 @@
 
 ![img of config](previews/config.png)
 3. Using `mvn clean install` to build project.
+
 4. Run project with `mvn spring-boot:run`.
-5. Test API with Postman.
-6. Enjoy! :3 mew mew
-7. If you want to config cors, you can config in `SecurityConfigurer.java`.
+
+6. Test API with Postman.
+
+7. Enjoy! :3 mew mew
+
+8. If you want to config cors, you can config in `SecurityConfigurer.java`.
 ![cors](previews/cors.png)
+
 ### Seeding data 
 > u can change logic here to seed data.
 ![seeding](previews/seeding.png)
